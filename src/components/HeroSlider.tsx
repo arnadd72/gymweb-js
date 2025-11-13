@@ -5,13 +5,9 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Impor Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Impor Swiper modules yang dibutuhkan
 import { Autoplay, Navigation, Pagination, EffectFade } from 'swiper/modules';
 
-// Impor Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -29,7 +25,7 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    image: "/hero-gym-1.webp", // Path Anda sudah benar
+    image: "/hero-gym-1.webp",
     alt: "KN Fitness Find Your Fire",
     headline: "BENTUK MASA DEPANMU",
     buttonText: "JELAJAHI PAKET",
@@ -37,7 +33,7 @@ const slides: Slide[] = [
   },
   {
     id: 2,
-    image: "/hero-gym-2.webp", // Path Anda sudah benar
+    image: "/hero-gym-2.webp",
     alt: "KN Fitness Team",
     headline: "ENERGI TAK TERBATAS",
     buttonText: "LIHAT KELAS",
@@ -45,7 +41,7 @@ const slides: Slide[] = [
   },
   {
     id: 3,
-    image: "/hero-gym-3.webp", // Path Anda sudah benar
+    image: "/hero-gym-3.webp",
     alt: "KN Fitness Members",
     headline: "RAIH POTENSI TERBAIKMU",
     buttonText: "KONSULTASI GRATIS",
@@ -60,7 +56,14 @@ export default function HeroSlider() {
     setSwiperLoaded(true); 
   }, []);
 
-  // Bagian ini adalah placeholder saat Swiper sedang loading di client
+  // Style Teks
+  const headlineStyles = [
+    "font-extrabold", // <-- Gunakan ketebalan font
+    "text-5xl md:text-7xl", // <-- Ukuran besar seperti FTL
+    "text-white uppercase tracking-tight mb-6", // tracking-tight agar lebih rapat
+    // HAPUS text-stroke dan text-shadow
+  ].join(" ");
+
   if (!swiperLoaded) {
     return (
       <div className="relative h-[60vh] md:h-[90vh] bg-gray-900 flex items-end justify-center">
@@ -69,13 +72,14 @@ export default function HeroSlider() {
           alt={slides[0].alt}
           layout="fill"
           objectFit="cover"
-          objectPosition="center" // TAMBAHKAN INI
+          objectPosition="center" 
           quality={90}
           priority
-          className="z-0 opacity-50" // Diberi opacity saat loading
+          className="z-0" 
         />
-        <div className="relative z-20 text-center pb-24 md:pb-32 text-white">
-          <h1 className="text-5xl md:text-6xl font-extrabold uppercase tracking-wider mb-6 drop-shadow-md">
+        <div className="absolute inset-0 bg-black/60 z-10"></div> {/* <-- Overlay */}
+        <div className="relative z-20 text-center pb-12 md:pb-16 text-white">
+          <h1 className={headlineStyles}> 
             LOADING...
           </h1>
           <div className="bg-lime-500 text-black font-extrabold py-3 px-10 rounded-sm text-lg opacity-50">
@@ -86,24 +90,17 @@ export default function HeroSlider() {
     );
   }
 
-  // Ini adalah Slider yang sudah aktif
   return (
     <Swiper
       modules={[Autoplay, Navigation, Pagination, EffectFade]}
       spaceBetween={0}
       slidesPerView={1}
-      autoplay={{
-        delay: 5000,
-        disableOnInteraction: false,
-      }}
+      autoplay={{ delay: 5000, disableOnInteraction: false }}
       loop={true}
       navigation={true}
       pagination={{ clickable: true }}
       effect="fade"
-      fadeEffect={{
-        crossFade: true,
-      }}
-      // UBAH TINGGI DI SINI (dari h-screen)
+      fadeEffect={{ crossFade: true }}
       className="h-[60vh] md:h-[90vh] w-full relative" 
     >
       {slides.map((slide) => (
@@ -114,18 +111,17 @@ export default function HeroSlider() {
               alt={slide.alt}
               layout="fill"
               objectFit="cover"
-              objectPosition="center" // TAMBAHKAN INI (penting untuk mobile)
+              objectPosition="center" 
               quality={90}
               priority={slide.id === 1} 
               className="z-0"
             />
             
-            {/* HAPUS OVERLAY GELAP (Request 3) */}
-            {/* <div className="absolute inset-0 bg-black/60 z-10"></div> */}
+            {/* 5. KEMBALIKAN OVERLAY GELAP AGAR TEKS TERBACA */}
+            <div className="absolute inset-0 bg-black/60 z-10"></div>
 
-            {/* Konten Hero */}
-            <div className="relative z-20 text-center pb-24 md:pb-32 px-4">
-              <h1 className="text-5xl md:text-6xl font-extrabold uppercase tracking-wider mb-6 drop-shadow-lg text-white">
+            <div className="relative z-20 text-center pb-12 md:pb-16 px-4">
+              <h1 className={headlineStyles}> 
                 {slide.headline}
               </h1>
               <Link
