@@ -4,6 +4,9 @@ import { useState } from "react";
 import MobileMenu from "./MobileMenu";
 import Link from "next/link";
 import Image from "next/image"; 
+// Impor komponen dropdown baru
+import FasilitasDropdown from "./FasilitasDropdown";
+import LatihanDropdown from "./LatihanDropdown";
 
 // Helper untuk mengubah nama menu menjadi path URL
 const getPathFromMenu = (item: string) => {
@@ -14,8 +17,8 @@ const getPathFromMenu = (item: string) => {
       return "/fasilitas";
     case "Latihan":
       return "/latihan";
-    case "Pricelist":
-      return "/Membership";
+    case "Membership":
+      return "/membership";
     case "Tentang Kami":
       return "/tentang";
     case "Kontak":
@@ -27,6 +30,8 @@ const getPathFromMenu = (item: string) => {
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  // State untuk mengontrol dropdown desktop
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const menuItems = [
     "Beranda",
@@ -38,17 +43,20 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-black text-white z-50">
+    <nav 
+      className="fixed top-0 left-0 w-full bg-black text-white z-50"
+      // Ini akan menutup dropdown saat mouse keluar dari area navbar
+      onMouseLeave={() => setOpenDropdown(null)}
+    >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 text-2xl font-extrabold text-white">
-          {/* PERBARUI BAGIAN INI UNTUK LOGO */}
           <Image
-            src="/logo-kn1.png" // Ganti dengan path logo Anda di folder /public
+            src="/logo-kn1.png" // Path ini dari file Anda
             alt="KN Fitness Logo"
-            width={60}
-            height={60}
+            width={40}
+            height={40}
           />
           <span>KN FITNESS</span>
         </Link>
@@ -58,13 +66,15 @@ export default function Navbar() {
           {menuItems.map((item) => (
             <li
               key={item}
-              className="hover:text-lime-400 cursor-pointer transition flex items-center gap-1.5"
+              // 'relative' penting agar dropdown bisa diposisikan
+              className="relative hover:text-lime-400 cursor-pointer transition flex items-center gap-1.5"
+              // Logika untuk membuka menu saat di-hover
+              onMouseEnter={() => (item === "Fasilitas" || item === "Latihan") && setOpenDropdown(item)}
             >
               <Link href={getPathFromMenu(item)}>
                 {item}
               </Link>
 
-              {/* TAMBAHKAN PANAH INI */}
               {(item === "Fasilitas" || item === "Latihan") && (
                 <svg
                   className="w-4 h-4"
@@ -80,6 +90,14 @@ export default function Navbar() {
                     d="M19 9l-7 7-7-7"
                   ></path>
                 </svg>
+              )}
+
+              {/* Render Dropdown secara Kondisional */}
+              {item === "Fasilitas" && openDropdown === "Fasilitas" && (
+                <FasilitasDropdown onClose={() => setOpenDropdown(null)} />
+              )}
+              {item === "Latihan" && openDropdown === "Latihan" && (
+                <LatihanDropdown onClose={() => setOpenDropdown(null)} />
               )}
             </li>
           ))}

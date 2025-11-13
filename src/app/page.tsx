@@ -1,7 +1,7 @@
 // src/app/page.tsx
 import Link from "next/link";
 import Image from "next/image";
-import HeroSlider from "@/components/HeroSlider"; // <-- TAMBAHKAN IMPORT INI
+import HeroSlider from "@/components/HeroSlider"; 
 
 // Komponen ikon centang kecil untuk daftar
 const CheckIcon = () => (
@@ -32,11 +32,16 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero Section - Ganti dengan HeroSlider */}
-      <HeroSlider /> {/* <-- GANTI SELURUH BAGIAN HERO SEBELUMNYA DENGAN INI */}
+      {/* Hero Section */}
+      <HeroSlider /> 
 
       {/* Bagian Banners (di bawah Hero) */}
-      <section className="relative z-20 -mt-24 pb-16">
+      {/* PERUBAHAN DI SINI: 
+        - Menghapus -mt-24 (agar tidak menimpa slider)
+        - Menambah py-16 (padding atas & bawah)
+        - Mengganti z-20 menjadi z-10
+      */}
+      <section className="relative z-10 py-16">
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* Banner Kiri: KN Fitness */}
@@ -94,7 +99,7 @@ export default function HomePage() {
                 ASK OUR EXPERTS
               </p>
               <Link
-                href="/contact"
+                href="/kontak"
                 className="block w-full bg-lime-500 hover:bg-lime-600 text-black font-extrabold py-3 px-6 rounded-sm text-lg transition duration-300"
               >
                 LETS TALK
