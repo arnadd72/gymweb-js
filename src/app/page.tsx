@@ -1,59 +1,108 @@
 // src/app/page.tsx
+import Link from "next/link";
+import Image from "next/image";
+import HeroSlider from "@/components/HeroSlider"; // <-- TAMBAHKAN IMPORT INI
 
-import Link from 'next/link';
-import Image from 'next/image'; // Penting: import Image dari next/image
+// Komponen ikon centang kecil untuk daftar
+const CheckIcon = () => (
+  <svg
+    className="w-5 h-5 text-lime-500"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={3}
+      d="M5 13l4 4L19 7"
+    ></path>
+  </svg>
+);
 
 export default function HomePage() {
+  const features = [
+    "Personal Training",
+    "Diet Plans",
+    "Group Classes",
+    "Free WIFI",
+    "Fitness Test",
+  ];
+
   return (
     <div>
-      {/* Hero Section */}
-      <section className="relative h-screen bg-black text-white">
-        <div className="container mx-auto h-full flex flex-col lg:flex-row items-center justify-between">
+      {/* Hero Section - Ganti dengan HeroSlider */}
+      <HeroSlider /> {/* <-- GANTI SELURUH BAGIAN HERO SEBELUMNYA DENGAN INI */}
+
+      {/* Bagian Banners (di bawah Hero) */}
+      <section className="relative z-20 -mt-24 pb-16">
+        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          {/* Bagian Kiri: Teks dan Tombol */}
-          <div className="w-full lg:w-1/2 text-center lg:text-left p-8 z-10">
-            <h1 className="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
-              ALL-IN GYM EXPERIENCE
-            </h1>
-            <p className="text-xl md:text-2xl mb-8">
-              Bukan Sekadar Gym – Ini Adalah Upgrade Gaya Hidup Anda
-            </p>
-            <div className="flex justify-center lg:justify-start space-x-4">
+          {/* Banner Kiri: KN Fitness */}
+          <div className="bg-white text-gray-800 shadow-2xl rounded-md overflow-hidden">
+            <div className="p-6">
+              <h2 className="text-3xl font-extrabold mb-4">
+                KN FITNESS
+              </h2>
+              <ul className="space-y-3 mb-5">
+                {features.map((feature) => (
+                  <li key={feature} className="flex items-center gap-3">
+                    <CheckIcon />
+                    <span className="text-lg font-medium">{feature}</span>
+                  </li>
+                ))}
+              </ul>
               <Link
-                href="/paket-membership"
-                className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300"
+                href="/packages"
+                className="text-lg font-bold text-lime-600 hover:underline"
               >
-                Daftar Sekarang
+                JOIN TODAY
               </Link>
+            </div>
+            <div className="bg-lime-500 text-black text-center p-4">
+              <h3 className="text-3xl font-extrabold tracking-tight">
+                GET 50% OFF
+              </h3>
+            </div>
+          </div>
+
+          {/* Banner Kanan: Working Hours */}
+          <div className="bg-gray-900 text-white shadow-2xl rounded-md overflow-hidden p-6 flex flex-col justify-between">
+            <div>
+              <h2 className="text-3xl font-extrabold mb-4 text-lime-400">
+                WORKING HOURS
+              </h2>
+              <ul className="space-y-2 text-lg font-medium mb-6">
+                <li className="flex justify-between border-b border-gray-700 py-2">
+                  <span>Week Days</span>
+                  <span>05:00 - 22:00</span>
+                </li>
+                <li className="flex justify-between border-b border-gray-700 py-2">
+                  <span>Saturday</span>
+                  <span>08:00 - 18:00</span>
+                </li>
+                <li className="flex justify-between border-b border-gray-700 py-2">
+                  <span>Sunday</span>
+                  <span>08:00 - 12:00</span>
+                </li>
+              </ul>
+            </div>
+            <div className="text-center">
+              <p className="text-xl font-bold mb-1">Need Free Consultation?</p>
+              <p className="text-2xl font-extrabold text-lime-400 mb-4">
+                ASK OUR EXPERTS
+              </p>
               <Link
-                href="/tentang-kn-fitness"
-                className="border border-white hover:bg-white hover:text-black text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300"
+                href="/contact"
+                className="block w-full bg-lime-500 hover:bg-lime-600 text-black font-extrabold py-3 px-6 rounded-sm text-lg transition duration-300"
               >
-                Pelajari Lebih Lanjut
+                LETS TALK
               </Link>
             </div>
           </div>
 
-          {/* Bagian Kanan: Slot Gambar */}
-          <div className="relative w-full lg:w-1/2 h-96 lg:h-full overflow-hidden">
-            <Image
-              src="/images/gyminteriorr.webp" // Ganti dengan path gambar Anda
-              alt="Interior Gym KN Fitness"
-              layout="fill"
-              objectFit="cover"
-              quality={90}
-              className="object-right" // Bisa atur posisi gambar jika perlu
-            />
-             {/* Optional: overlay gelap agar teks di atas gambar lebih jelas jika ada */}
-            <div className="absolute inset-0 bg-black opacity-30"></div> 
-          </div>
-
         </div>
-      </section>
-
-      {/* Bagian Fitur (Contoh - biarkan seperti sebelumnya atau hapus dulu) */}
-      <section className="py-16 text-center">
-        {/* ... (konten fitur lainnya) ... */}
       </section>
     </div>
   );
